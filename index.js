@@ -1,8 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 
+const PORT = 4001
+
 const app = express();
 app.use(cors())
-app.listen(4001)
+app.listen(`${PORT}`)
 
-app.get("/tweets", )
+app.get("/tweets", () => {
+  console.log(` Servidor rodando na porta: ${PORT}`)
+} )
