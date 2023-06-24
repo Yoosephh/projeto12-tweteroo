@@ -15,8 +15,23 @@ app.listen(`${PORT}`, () => {
 })
 
 app.get("/tweets", (req, res) => {
-
+  const lastTweets = tweets.slice(-10)
+  const sendTweets = lastTweets.map(t => ({
+    username: t.username,
+    tweet: t.tweet,
+    avatar: (() => checkAvatar(t))
+  }))
+  res.status(200).send(sendTweets)
 } )
+
+function checkAvatar(t) {
+  for(let i = 0; i < users.length; i++) {
+    if(t.username === users[i].username){
+      return users[i].avatar
+    }
+  }
+}
+
 app.post("/tweets", (req, res) => {
   const {username, tweet} = req.body
 
@@ -46,7 +61,7 @@ app.post("/sign-up", (req, res) => {
   const newUser = {
     username, avatar
   }
-  
+
   users.push(newUser);
   
   res.status(201).send("OK")
